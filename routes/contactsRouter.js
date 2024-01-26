@@ -1,15 +1,16 @@
 const express = require("express");
-const ctrl = require("../controllers/contactsControllers");
-const validateBody = require("../helpers/validateBody");
-const schema = require("../schemas/contactsSchemas");
+const ctrl = require("../controllers/contactsControllers.js");
+const validateBody = require("../helpers/validateBody.js");
+const schema = require("../schemas/contactsSchemas.js");
+const isValidId = require("../middlewares/isValidId.js");
 
 const contactsRouter = express.Router();
 
 contactsRouter.get("/", ctrl.getAllContacts);
 
-contactsRouter.get("/:id", ctrl.getContactById);
+contactsRouter.get("/:id", isValidId, ctrl.getContactById);
 
-contactsRouter.delete("/:id", ctrl.deleteContact);
+contactsRouter.delete("/:id", isValidId, ctrl.deleteContact);
 
 contactsRouter.post(
   "/",
@@ -20,7 +21,15 @@ contactsRouter.post(
 contactsRouter.put(
   "/:id",
   validateBody(schema.updateContactSchema),
+  isValidId,
   ctrl.updateContact
+);
+
+contactsRouter.patch(
+  "/:id/favorite",
+  validateBody(schema.favoriteSchema),
+  isValidId,
+  ctrl.updateFavorite
 );
 
 module.exports = contactsRouter;
