@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
-const handleMongooseError = require("../helpers/handleMongooseError");
+const { handleMongooseError } = require("../helpers");
 
-const bookSchema = new Schema(
+const contactSchema = new Schema(
   {
     name: {
       type: String,
@@ -21,8 +21,8 @@ const bookSchema = new Schema(
   { versionKey: false, timestamps: true }
 );
 
-bookSchema.post("save", handleMongooseError);
+contactSchema.post("save", handleMongooseError);
 
-const Contact = model("contact", bookSchema);
+const Contact = model("contact", contactSchema);
 
 module.exports = Contact;
