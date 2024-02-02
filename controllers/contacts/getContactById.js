@@ -1,9 +1,10 @@
 const { HttpError } = require("../../helpers");
-const Contact = require("../../models");
+const { Contact } = require("../../models");
 
 const getContactById = async (req, res) => {
   const { id } = req.params;
-  const contactsById = await Contact.findById(id);
+  const { _id } = req.user;
+  const contactsById = await Contact.findOne({ _id: id, owner: _id });
   if (!contactsById) {
     throw HttpError(404);
   }

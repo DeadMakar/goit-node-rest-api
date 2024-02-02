@@ -9,7 +9,8 @@ const { DB_ADMIN_NAME, DB_ADMIN_PASSWORD, DB_CLUSTER_NAME, DB_COLLECTION } =
 
 const DB_HOST_NEW = `mongodb+srv://${DB_ADMIN_NAME}:${DB_ADMIN_PASSWORD}@${DB_CLUSTER_NAME}.mongodb.net/${DB_COLLECTION}`;
 
-const contactsRouter = require("./routes/contactsRouter");
+const { authRouter } = require("./routes");
+const { contactsRouter } = require("./routes");
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(morgan("tiny"));
 app.use(cors());
 app.use(express.json());
 
+app.use("/api/users", authRouter);
 app.use("/api/contacts", contactsRouter);
 
 app.use((_, res) => {

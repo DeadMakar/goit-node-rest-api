@@ -1,9 +1,13 @@
 const { HttpError } = require("../../helpers");
-const Contact = require("../../models");
+const { Contact } = require("../../models");
 
 const deleteContact = async (req, res) => {
   const { id } = req.params;
-  const removedContact = await Contact.findByIdAndDelete(id);
+  const { _id } = req.user;
+  const removedContact = await Contact.findOneAndDelete({
+    _id: id,
+    owner: _id,
+  });
   if (!removedContact) {
     throw HttpError(404);
   }
