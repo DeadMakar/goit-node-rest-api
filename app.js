@@ -18,7 +18,7 @@ app.use(morgan("tiny"));
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/users", authRouter);
+app.use("/users", authRouter);
 app.use("/api/contacts", contactsRouter);
 
 app.use((_, res) => {
@@ -29,12 +29,15 @@ app.use((err, req, res, next) => {
   const { status = 500, message = "Server error" } = err;
   res.status(status).json({ message });
 });
+
+const PORT = 3000;
+
 mongoose
   .connect(DB_HOST_NEW)
   .then(() => console.log("Database connection successful"))
   .then(() =>
-    app.listen(3000, () =>
-      console.log("Server is running. Use our API on port: 3000")
+    app.listen(PORT, () =>
+      console.log(`Server is running. Use our API on port: ${PORT}`)
     )
   )
   .catch((err) => {
