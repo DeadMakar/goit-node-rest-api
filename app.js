@@ -4,11 +4,15 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-const { DB_ADMIN_NAME, DB_ADMIN_PASSWORD, DB_CLUSTER_NAME, DB_COLLECTION } =
-  process.env;
+const {
+  DB_ADMIN_NAME,
+  DB_ADMIN_PASSWORD,
+  DB_CLUSTER_NAME,
+  DB_COLLECTION,
+  PORT,
+} = process.env;
 
 const DB_HOST_NEW = `mongodb+srv://${DB_ADMIN_NAME}:${DB_ADMIN_PASSWORD}@${DB_CLUSTER_NAME}.mongodb.net/${DB_COLLECTION}`;
-const PORT = 3000;
 
 const { authRouter } = require("./routes");
 const { contactsRouter } = require("./routes");
